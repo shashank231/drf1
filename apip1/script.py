@@ -2,18 +2,25 @@
 import requests
 
 
-endpoint = "http://127.0.0.1:8000/apip/Book/" + "?limit=2"
-dict1 = {}
-lst1 = []
-while(True):
-    resp = requests.get(endpoint)
-    [lst1.append(obj) for obj in resp.json()['results']]
-    next_url = resp.json()['next']
-    if not next_url:
-        break
-    endpoint = next_url
+endpoint = "http://127.0.0.1:8000/apip/Book/?limit=2"
+# dict1 = {}
+# lst1 = []
+# while(True):
+#     resp = requests.get(endpoint)
+#     [lst1.append(obj) for obj in resp.json()['results']]
+#     next_url = resp.json()['next']
+#     if not next_url:
+#         break
+#     endpoint = next_url
 
-print(lst1)
+# print(lst1)
+
+resp = requests.get(endpoint);
+print(resp)
+a = resp.json()
+print(a['count'])
+print(a['results'])
+
 
 
 

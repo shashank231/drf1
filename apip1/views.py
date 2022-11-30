@@ -12,35 +12,27 @@ from rest_framework import status
 from django.core.exceptions import ValidationError
 from drf_yasg.utils import swagger_auto_schema
 from .mypagination import MyPageNumberPagination, MyLimitOffsetPagination
-
 import pdb
+import coreapi
+import json
 
 class AuthorView(generics.ListCreateAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
-
-
-
 class AuthorDetailsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-
 
 class BookView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     pagination_class = MyLimitOffsetPagination
 
-    def get(self, request, *args, **kwargs):
-        print("u+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        return self.list(request, *args, **kwargs)
-
     # def post(self, request, *args, **kwargs):
     #     request.data._mutable = True
     #     request.data.update({"rating": 17})
     #     return super(BookView, self).post(request, *args, **kwargs)
-
 
 class BookDetailsView(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -55,8 +47,6 @@ class BookDetailsView(generics.RetrieveUpdateDestroyAPIView):
     #     partial = kwargs.pop('partial', False)
     #     instance = self.get_object()
 
-
-    #     print("----------------------------------------------------------------------------------------------------------")
     #     print("req.data = ", request.data)
     #     print(type(request.data))
     #     b = request.data.get("section", "harharmahadev")
@@ -68,8 +58,6 @@ class BookDetailsView(generics.RetrieveUpdateDestroyAPIView):
     #         print(type(ser.data))
     #         a = ser.data.get("section", "har har har")
     #         print("a = ", a)
-    #     print("----------------------------------------------------------------------------------------------------------")
-
 
     #     request.data.update( {'title': 'string', 'rating': 869, 'writer': 1} )
     #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
@@ -78,7 +66,39 @@ class BookDetailsView(generics.RetrieveUpdateDestroyAPIView):
     #     return Response(serializer.data)
 
 
-    
+class W1View(generics.RetrieveAPIView):
+    serializer_class = WorkSerializer
+
+    def get_object(self):
+        id = self.kwargs.get('pk')
+        w1 = Worker.objects.get(id=id)
+
+        print("=============================")
+        print(w1.boss.name)
+        print(w1.boss.age)
+        print(w1.boss.favemp)
+        print(w1.boss.favemp.name)   # works
+        print("=============================")
+
+        return w1
+
+
+class W2View(generics.ListAPIView):
+    queryset = Worker.objects.all()
+    serializer_class = WorkSerializer
+
+    def get(self, request, *args, **kwargs):
+        print("-----------------------------------")
+        cl1 = coreapi.Client()
+        s1 = cl1.get('http://127.0.0.1:8000/apip/Worker/1')
+        print(type(s1))
+        print(s1['name'])
+        d1 = json.dumps(s1)
+        print(d1)
+        print(type(d1))
+        # print(d1.name)
+        print("------------------------------------")
+        return self.list(request, *args, **kwargs)
 
 
 

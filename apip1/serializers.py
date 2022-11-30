@@ -17,6 +17,7 @@ class AuthorSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
 
+
 class DummySerializer(serializers.Serializer):
     clas = serializers.CharField()
     section = serializers.CharField(required=False)
@@ -28,8 +29,40 @@ class DummySerializer(serializers.Serializer):
     #     return exclusions + ['section']
 
 
-
 class SummySerializer(serializers.Serializer):
     room = serializers.CharField()
     numb = serializers.CharField(required=False)
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = "__all__"
+
+
+class BossSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Boss
+        fields = "__all__"
+
+
+class Boss2Serializer(BossSerializer):
+    favemp = EmployeeSerializer(required=False)
+
+
+class WorkSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField(required=False)
+    in_dept = serializers.CharField(required=False)
+    boss = Boss2Serializer(required=False)
+
+
+
+
+
+
+
+
+
+
 

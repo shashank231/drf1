@@ -8,5 +8,7 @@ urlpatterns = [
     path('Book/<int:pk>', views.BookDetailsView.as_view()),
 
     path('Author/', views.AuthorView.as_view()),
-    path('Author/<int:pk>', views.AuthorDetailsView.as_view())
+    path('Author/<int:pk>', views.AuthorDetailsView.as_view()),
+    path('Worker/', views.W2View.as_view()),
+    path('Worker/<int:pk>', views.W1View.as_view())
 ]
